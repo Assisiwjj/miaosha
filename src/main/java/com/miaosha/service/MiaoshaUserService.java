@@ -52,12 +52,12 @@ public class MiaoshaUserService {
             throw new GlobalException(CodeMsg.PASSWORD_ERROR);
         }
         //生成cookie
-        addCookie(response,miaoshaUser);
+        String token = UUIDutil.uuid();
+        addCookie(response,token,miaoshaUser);
         return true;
     }
 
-    private void addCookie(HttpServletResponse response,MiaoshaUser miaoshaUser){
-        String token = UUIDutil.uuid();
+    private void addCookie(HttpServletResponse response,String token,MiaoshaUser miaoshaUser){
         redisTemplate.opsForValue().set("user"+token,miaoshaUser,30, TimeUnit.MINUTES);
         Cookie cookie =new Cookie(COOKI_NAME_TOKEN,token);
         cookie.setMaxAge(COOKI_TIME);
@@ -71,7 +71,7 @@ public class MiaoshaUserService {
         }
         MiaoshaUser miaoshaUser= (MiaoshaUser) redisTemplate.opsForValue().get("user"+token);
         if (miaoshaUser!=null){
-            addCookie(response,miaoshaUser);
+            addCookie(response,token,miaoshaUser);
         }
         return miaoshaUser;
     }

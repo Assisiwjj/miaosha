@@ -2,7 +2,9 @@ package com.miaosha.controller;
 
 import com.miaosha.domain.MiaoshaUser;
 
+import com.miaosha.service.GoodsService;
 import com.miaosha.service.MiaoshaUserService;
+import com.miaosha.vo.GoodsVo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 
 @Controller
@@ -22,27 +25,28 @@ import javax.servlet.http.HttpServletResponse;
 public class GoodsController {
 
     @Autowired
-    MiaoshaUserService miaoshaUserService;
+    GoodsService goodsService;
 
     private static Logger log = LoggerFactory.getLogger(GoodsController.class);
 
     @RequestMapping("/to_list")
-    public String toList(Model model,MiaoshaUser miaoshaUser){
-        model.addAttribute("user",miaoshaUser);
+    public String toList(Model model){
+        List<GoodsVo> goodsList = goodsService.listGoodsVo();
+        model.addAttribute("goodsList",goodsList);
         return "goods_list";
     }
 
-    @RequestMapping("/to_detail")
-    public String detail(Model model, HttpServletResponse response,
-                         @CookieValue(value = MiaoshaUserService.COOKI_NAME_TOKEN, required = false) String cookieToken,
-                         @RequestParam(value = MiaoshaUserService.COOKI_NAME_TOKEN, required = false) String paramToken
-    ){
-        if (StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)){
-            return "login";
-        }
-        String token = StringUtils.isEmpty(paramToken)?cookieToken:paramToken;
-        MiaoshaUser miaoshaUser = miaoshaUserService.getByToken(response,token);
-        model.addAttribute("user",miaoshaUser);
-        return "goods_list";
-    }
+//    @RequestMapping("/to_detail")
+//    public String detail(Model model, HttpServletResponse response,
+//                         @CookieValue(value = MiaoshaUserService.COOKI_NAME_TOKEN, required = false) String cookieToken,
+//                         @RequestParam(value = MiaoshaUserService.COOKI_NAME_TOKEN, required = false) String paramToken
+//    ){
+//        if (StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)){
+//            return "login";
+//        }
+//        String token = StringUtils.isEmpty(paramToken)?cookieToken:paramToken;
+//        MiaoshaUser miaoshaUser = miaoshaUserService.getByToken(response,token);
+//        model.addAttribute("user",miaoshaUser);
+//        return "goods_list";
+//    }
 }
