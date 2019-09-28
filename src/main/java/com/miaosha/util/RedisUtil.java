@@ -1,4 +1,4 @@
-package com.miaosha.Util;
+package com.miaosha.util;
 
 import java.util.List;
 import java.util.Map;
