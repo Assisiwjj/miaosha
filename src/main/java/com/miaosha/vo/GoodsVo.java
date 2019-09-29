@@ -5,6 +5,7 @@ import com.miaosha.domain.Goods;
 import java.util.Date;
 
 public class GoodsVo extends Goods {
+    private Double miaoshaPrice;
     private Integer stockCount;
     private Date startDate;
     private Date endDate;
@@ -31,5 +32,13 @@ public class GoodsVo extends Goods {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public Double getMiaoshaPrice() {
+        return miaoshaPrice;
+    }
+
+    public void setMiaoshaPrice(Double miaoshaPrice) {
+        this.miaoshaPrice = miaoshaPrice;
     }
 }
