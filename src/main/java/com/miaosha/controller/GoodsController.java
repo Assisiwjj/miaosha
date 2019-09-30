@@ -3,9 +3,7 @@ package com.miaosha.controller;
 import com.miaosha.domain.MiaoshaUser;
 
 import com.miaosha.service.GoodsService;
-import com.miaosha.service.MiaoshaUserService;
 import com.miaosha.vo.GoodsVo;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 
