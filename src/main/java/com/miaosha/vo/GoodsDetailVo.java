@@ -7,7 +7,7 @@ public class GoodsDetailVo {
 
     private int remainSeconds = 0;
 
-    private GoodsVo goodsVo;
+    private GoodsVo goods;
 
     private MiaoshaUser user;
 
@@ -27,12 +27,12 @@ public class GoodsDetailVo {
         this.remainSeconds = remainSeconds;
     }
 
-    public GoodsVo getGoodsVo() {
-        return goodsVo;
+    public GoodsVo getGoods() {
+        return goods;
     }
 
     public void setGoodsVo(GoodsVo goodsVo) {
-        this.goodsVo = goodsVo;
+        this.goods = goodsVo;
     }
 
     public MiaoshaUser getUser() {

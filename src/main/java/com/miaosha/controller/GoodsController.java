@@ -71,7 +71,7 @@ public class GoodsController {
         return html;
     }
 
-    @RequestMapping(value = "/to_detail/{goodsId}",produces = "text/html")
+    @RequestMapping("/detail/{goodsId}")
     @ResponseBody
     public Result<GoodsDetailVo> toDetail(HttpServletRequest request, HttpServletResponse response,
                                           Model model, MiaoshaUser user, @PathVariable("goodsId") long goodsId){

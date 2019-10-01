@@ -15,9 +15,11 @@ import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
@@ -39,32 +41,37 @@ public class MiaoshaController {
 
     private static Logger log = LoggerFactory.getLogger(MiaoshaController.class);
 
-    @RequestMapping("/do_miaosha")
-    public String doMiaosha(Model model, MiaoshaUser user, @Param("goodsId")long goodsId){
+    @RequestMapping(value = "/do_miaosha",method = RequestMethod.POST)
+    @ResponseBody
+    public Result<OrderInfo> doMiaosha(Model model, MiaoshaUser user, @Param("goodsId")long goodsId){
         model.addAttribute("user", user);
         if (user == null){
-            return "login";
+            return Result.error(CodeMsg.SESSION_ERROR);
+//            return "login";
         }
 
         //判断商品是否有库存
         GoodsVo goods = goodsService.getGoodsVoByGoodsId(goodsId);
         int stock = goods.getStockCount();
         if (stock<0){
-            model.addAttribute("errmsg", CodeMsg.MIAO_SHA_OVER.getMsg());
-            return "miaosha_fail";
+            return Result.error(CodeMsg.MIAO_SHA_OVER);
+//            model.addAttribute("errmsg", CodeMsg.MIAO_SHA_OVER.getMsg());
+//            return "miaosha_fail";
         }
 
         //判断是否秒杀到了
         MiaoshaOrder order = orderService.getMiaoshaOrderByUserIdGoodsId(user.getId(),goodsId);
         if (order!=null){
-            model.addAttribute("errmsg",CodeMsg.REPEATE_MIAOSHA.getMsg());
-            return "miaosha_fail";
+            return Result.error(CodeMsg.REPEATE_MIAOSHA);
+//            model.addAttribute("errmsg",CodeMsg.REPEATE_MIAOSHA.getMsg());
+//            return "miaosha_fail";
         }
 
         //减库存 下订单 写入秒杀订单
         OrderInfo orderInfo = miaoshaService.miaosha(user,goods);
-        model.addAttribute("orderInfo",orderInfo);
-        model.addAttribute("goods",goods);
-        return "order_detail";
+        return Result.success(orderInfo);
+//        model.addAttribute("orderInfo",orderInfo);
+//        model.addAttribute("goods",goods);
+//        return "order_detail";
     }
 }
